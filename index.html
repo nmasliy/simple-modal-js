@@ -15,11 +15,26 @@
 			padding: 20px;
 			font-size: 18px;
 		}
+		.btn {
+			padding: 15px;
+			background-color: #fff;
+			font-size: 20px;
+			cursor: pointer;
+			min-width: 250px;
+			margin: 10px;
+		}
 	</style>
 </head>
 
 <body>
-	<button data-modal-open="modal-1">Открыть модальное окно</button>
+	<p>Basic usage</p>
+	<p><button class="btn" data-modal-open="modal-default">Open modal</button></p>
+	<hr>
+	<p>Nested modals</p>
+	<p><button class="btn" data-modal-open="modal-nested">Open modal</button></p>
+	<p>*Nested modal z-index should be bigger </p>
+	<hr>
+
 	<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dignissimos, porro nostrum explicabo nesciunt veritatis
 		ipsa,
 		illum dicta quas qui sed, debitis aperiam facilis perferendis! Veniam, omnis vitae! Adipisci debitis perspiciatis
@@ -213,7 +228,7 @@
 		repellendus laudantium alias fuga voluptatum distinctio omnis. Cupiditate iste facilis quibusdam.
 	</p>
 
-	<div class="modal" id="modal-1" aria-hidden="true">
+	<div class="modal" id="modal-nested" aria-hidden="true">
 		<div class="modal__wrapper">
 			<div class="modal__inner">
 				<div class="modal__content">
@@ -225,21 +240,36 @@
 					<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt ipsum beatae laboriosam id natus! Similique dignissimos veritatis ducimus hic! Delectus, mollitia obcaecati dolor dolorum tempora nemo iusto id amet provident.</p>
 					<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt ipsum beatae laboriosam id natus! Similique dignissimos veritatis ducimus hic! Delectus, mollitia obcaecati dolor dolorum tempora nemo iusto id amet provident.</p>
 					<button data-modal-close>Закрыть</button>
-					<button data-modal-open="modal-2">Открыть другое модальное окно</button>
+					<button data-modal-open="modal-default">Открыть другое модальное окно</button>
 					<button class="modal__close" data-modal-close>&times;</button>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="modal" id="modal-2" aria-hidden="true">
+	<div class="modal" id="modal-default" aria-hidden="true">
 		<div class="modal__wrapper">
 			<div class="modal__inner">
 				<div class="modal__content">
-					<h1>Модальное окно #2</h1>
-					<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt ipsum beatae laboriosam id natus! Similique dignissimos veritatis ducimus hic! Delectus, mollitia obcaecati dolor dolorum tempora nemo iusto id amet provident.</p>
-					<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt ipsum beatae laboriosam id natus! Similique dignissimos veritatis ducimus hic! Delectus, mollitia obcaecati dolor dolorum tempora nemo iusto id amet provident.</p>
+					<h1>Модальное окно</h1>
+					<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt ipsum beatae laboriosam id natus!
+						Similique dignissimos veritatis ducimus hic! Delectus, mollitia obcaecati dolor dolorum tempora nemo iusto id
+						amet provident.</p>
+					<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt ipsum beatae laboriosam id natus!
+						Similique dignissimos veritatis ducimus hic! Delectus, mollitia obcaecati dolor dolorum tempora nemo iusto id
+						amet provident.</p>
+					<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt ipsum beatae laboriosam id natus!
+						Similique dignissimos veritatis ducimus hic! Delectus, mollitia obcaecati dolor dolorum tempora nemo iusto id
+						amet provident.</p>
+					<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt ipsum beatae laboriosam id natus!
+						Similique dignissimos veritatis ducimus hic! Delectus, mollitia obcaecati dolor dolorum tempora nemo iusto id
+						amet provident.</p>
+					<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt ipsum beatae laboriosam id natus!
+						Similique dignissimos veritatis ducimus hic! Delectus, mollitia obcaecati dolor dolorum tempora nemo iusto id
+						amet provident.</p>
+					<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt ipsum beatae laboriosam id natus!
+						Similique dignissimos veritatis ducimus hic! Delectus, mollitia obcaecati dolor dolorum tempora nemo iusto id
+						amet provident.</p>
 					<button data-modal-close>Закрыть</button>
-					<button class="modal__close" data-modal-close>&times;</button>
 				</div>
 			</div>
 		</div>
@@ -247,7 +277,15 @@
 </body>
 
 <script >
-	const modals = new SimpleModal();
+	const options = {
+		onOpen: (modal) => { console.log('on open: ', modal) },
+		onClose: (modal) => { console.log('on close', modal) },
+		disableScroll: true,
+		transition: 250,
+		nested: true,
+		overlayCloseAll: true,
+	}
+	const modals = new SimpleModal(options);
 	modals.init();
 </script>
 </html>
