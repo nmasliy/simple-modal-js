@@ -22,38 +22,6 @@ class SimpleModal {
 			this._events()
 		}
 	}
-	_events() {
-		document.body.addEventListener('click', e => {
-			const openTrigger = e.target.closest('[data-modal-open]')
-			const closeTrigger = e.target.closest('[data-modal-close]')
-			const $modal = e.target.closest('.modal')
-			const isOverlay = $modal && !e.target.closest('.modal__inner')
-
-			if (openTrigger) {
-				e.preventDefault()
-				const modalId = openTrigger.dataset.modalOpen
-
-				if (!this.options.nested && this.$activeModals.length > 0) {
-					this.closeAll()
-					setTimeout(() => {
-						this.open(modalId)
-					}, this.options.transition)
-				} else {
-					this.open(modalId)
-				}
-			} else if (closeTrigger) {
-				e.preventDefault()
-				const modalId = closeTrigger.dataset.modalClose || $modal.id
-				this.close(modalId)
-			} else if (isOverlay) {
-				if (this.options.overlayCloseAll && this.$activeModals.length > 0) {
-					this.closeAll()
-				} else {
-					this.close($modal.id)
-				}
-			}
-		})
-	}
 	open(id) {
 		if (!this.isAnimated) {
 			const $modal = document.querySelector('#' + id)
@@ -99,6 +67,38 @@ class SimpleModal {
 			this.isAnimated = false
 			this.close($item.id)
 			this.$html.classList.remove('overflow-hidden')
+		})
+	}
+	_events() {
+		document.body.addEventListener('click', e => {
+			const openTrigger = e.target.closest('[data-modal-open]')
+			const closeTrigger = e.target.closest('[data-modal-close]')
+			const $modal = e.target.closest('.modal')
+			const isOverlay = $modal && !e.target.closest('.modal__inner')
+
+			if (openTrigger) {
+				e.preventDefault()
+				const modalId = openTrigger.dataset.modalOpen
+
+				if (!this.options.nested && this.$activeModals.length > 0) {
+					this.closeAll()
+					setTimeout(() => {
+						this.open(modalId)
+					}, this.options.transition)
+				} else {
+					this.open(modalId)
+				}
+			} else if (closeTrigger) {
+				e.preventDefault()
+				const modalId = closeTrigger.dataset.modalClose || $modal.id
+				this.close(modalId)
+			} else if (isOverlay) {
+				if (this.options.overlayCloseAll && this.$activeModals.length > 0) {
+					this.closeAll()
+				} else {
+					this.close($modal.id)
+				}
+			}
 		})
 	}
 }

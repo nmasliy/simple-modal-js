@@ -7,13 +7,12 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Modal plugin</title>
 	<link rel="stylesheet" href="simple-modal.css">
-	<script src="simple-modal.js"></script>
 	<style>
 		body {
 			max-width: 1000px;
 			margin: 0 auto;
 			padding: 20px;
-			font-size: 18px;
+			font-size: 22px;
 		}
 		.btn {
 			padding: 15px;
@@ -240,7 +239,7 @@
 					<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt ipsum beatae laboriosam id natus! Similique dignissimos veritatis ducimus hic! Delectus, mollitia obcaecati dolor dolorum tempora nemo iusto id amet provident.</p>
 					<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt ipsum beatae laboriosam id natus! Similique dignissimos veritatis ducimus hic! Delectus, mollitia obcaecati dolor dolorum tempora nemo iusto id amet provident.</p>
 					<button data-modal-close>Close</button>
-					<button data-modal-open="modal-default">Open another modal</button>
+					<button data-modal-open="modal-nested-2">Open another modal</button>
 					<button class="modal__close" data-modal-close>&times;</button>
 				</div>
 			</div>
@@ -274,8 +273,22 @@
 			</div>
 		</div>
 	</div>
+	<div class="modal" id="modal-nested-2" aria-hidden="true">
+		<div class="modal__wrapper">
+			<div class="modal__inner">
+				<div class="modal__content">
+					<h1>Modal window nested</h1>
+					<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt ipsum beatae laboriosam id natus!
+						Similique dignissimos veritatis ducimus hic! Delectus, mollitia obcaecati dolor dolorum tempora nemo iusto id
+						amet provident.</p>
+					<button data-modal-close>Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 
+<script src="simple-modal.js"></script>
 <script >
 	const options = {
 		onOpen: (modal) => { console.log('on open: ', modal) },
@@ -285,8 +298,7 @@
 		nested: false,
 		overlayCloseAll: true,
 	}
-	const modals = new SimpleModal(options);
-	modals.init();
-	modals.open('modal-default')
+	const modals = new SimpleModal();
+	modals.init(options);
 </script>
 </html>
