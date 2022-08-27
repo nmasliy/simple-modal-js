@@ -19,10 +19,10 @@ class SimpleModal {
 			this.$modals.forEach($modal => {
 				$modal.style.transitionDuration = this.options.transition / 1000 + 's'
 			})
-			this.events()
+			this._events()
 		}
 	}
-	events() {
+	_events() {
 		document.body.addEventListener('click', e => {
 			const openTrigger = e.target.closest('[data-modal-open]')
 			const closeTrigger = e.target.closest('[data-modal-close]')
@@ -34,33 +34,27 @@ class SimpleModal {
 				const modalId = openTrigger.dataset.modalOpen
 
 				if (!this.options.nested && this.$activeModals.length > 0) {
-					this.$activeModals.forEach($item => {
-						this.closeModal($item.id)
-					})
+					this.closeAll()
 					setTimeout(() => {
-						this.openModal(modalId)
+						this.open(modalId)
 					}, this.options.transition)
 				} else {
-					this.openModal(modalId)
+					this.open(modalId)
 				}
 			} else if (closeTrigger) {
 				e.preventDefault()
 				const modalId = closeTrigger.dataset.modalClose || $modal.id
-				this.closeModal(modalId)
+				this.close(modalId)
 			} else if (isOverlay) {
 				if (this.options.overlayCloseAll && this.$activeModals.length > 0) {
-					this.$activeModals.forEach($item => {
-						this.isAnimated = false
-						this.closeModal($item.id)
-						this.$html.classList.remove('overflow-hidden')
-					})
+					this.closeAll()
 				} else {
-					this.closeModal($modal.id)
+					this.close($modal.id)
 				}
 			}
 		})
 	}
-	openModal(id) {
+	open(id) {
 		if (!this.isAnimated) {
 			const $modal = document.querySelector('#' + id)
 
@@ -81,7 +75,7 @@ class SimpleModal {
 			}, this.options.transition)
 		}
 	}
-	closeModal(id) {
+	close(id) {
 		if (!this.isAnimated) {
 			const $modal = document.querySelector('#' + id)
 
@@ -99,5 +93,12 @@ class SimpleModal {
 				this.options.onClose($modal)
 			}, this.options.transition)
 		}
+	}
+	closeAll() {
+		this.$activeModals.forEach($item => {
+			this.isAnimated = false
+			this.close($item.id)
+			this.$html.classList.remove('overflow-hidden')
+		})
 	}
 }

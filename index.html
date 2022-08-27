@@ -232,15 +232,15 @@
 		<div class="modal__wrapper">
 			<div class="modal__inner">
 				<div class="modal__content">
-					<h1>Модальное окно</h1>
+					<h1>Modal window</h1>
 					<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt ipsum beatae laboriosam id natus! Similique dignissimos veritatis ducimus hic! Delectus, mollitia obcaecati dolor dolorum tempora nemo iusto id amet provident.</p>
 					<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt ipsum beatae laboriosam id natus! Similique dignissimos veritatis ducimus hic! Delectus, mollitia obcaecati dolor dolorum tempora nemo iusto id amet provident.</p>
 					<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt ipsum beatae laboriosam id natus! Similique dignissimos veritatis ducimus hic! Delectus, mollitia obcaecati dolor dolorum tempora nemo iusto id amet provident.</p>
 					<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt ipsum beatae laboriosam id natus! Similique dignissimos veritatis ducimus hic! Delectus, mollitia obcaecati dolor dolorum tempora nemo iusto id amet provident.</p>
 					<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt ipsum beatae laboriosam id natus! Similique dignissimos veritatis ducimus hic! Delectus, mollitia obcaecati dolor dolorum tempora nemo iusto id amet provident.</p>
 					<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt ipsum beatae laboriosam id natus! Similique dignissimos veritatis ducimus hic! Delectus, mollitia obcaecati dolor dolorum tempora nemo iusto id amet provident.</p>
-					<button data-modal-close>Закрыть</button>
-					<button data-modal-open="modal-default">Открыть другое модальное окно</button>
+					<button data-modal-close>Close</button>
+					<button data-modal-open="modal-default">Open another modal</button>
 					<button class="modal__close" data-modal-close>&times;</button>
 				</div>
 			</div>
@@ -250,7 +250,7 @@
 		<div class="modal__wrapper">
 			<div class="modal__inner">
 				<div class="modal__content">
-					<h1>Модальное окно</h1>
+					<h1>Modal window</h1>
 					<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt ipsum beatae laboriosam id natus!
 						Similique dignissimos veritatis ducimus hic! Delectus, mollitia obcaecati dolor dolorum tempora nemo iusto id
 						amet provident.</p>
@@ -269,7 +269,7 @@
 					<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt ipsum beatae laboriosam id natus!
 						Similique dignissimos veritatis ducimus hic! Delectus, mollitia obcaecati dolor dolorum tempora nemo iusto id
 						amet provident.</p>
-					<button data-modal-close>Закрыть</button>
+					<button data-modal-close>Close</button>
 				</div>
 			</div>
 		</div>
@@ -282,10 +282,11 @@
 		onClose: (modal) => { console.log('on close', modal) },
 		disableScroll: true,
 		transition: 250,
-		nested: true,
+		nested: false,
 		overlayCloseAll: true,
 	}
 	const modals = new SimpleModal(options);
 	modals.init();
+	modals.open('modal-default')
 </script>
 </html>
