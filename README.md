@@ -38,7 +38,7 @@ Modal must have id
 
 <pre>data-modal-open="modal-default"</pre>
 
-**Add data attribute to your modal close trigger**<pre>data-modal-close</pre>
+***Add data attribute to your modal close trigger***<pre>data-modal-close</pre>
 In this case it close current modal where there close trigger is, we also can pass a modal id value the same way as we do in data-modal-open
 For example:
 
@@ -65,7 +65,7 @@ const options = {
   },
   disableScroll: true,
   transition: 250,
-  nested: false,
+  nested: true,
   overlayCloseAll: true,
 }
 const modals = new SimpleModal(options)
@@ -105,23 +105,37 @@ onClose: modal => {
 
 ### ***Options***
 
-**disableScroll (boolean)**: Disable scroll when modal open (by default is true) 
+**disableScroll (boolean)**: Disable scroll when modal open 
+```js
+disableScroll: true // default value
+```
 
-**transition (number, ms)**: open and close modal animation duration (by default is 250)
+**transition (number, ms)**: Open and close modal animation duration 
+```js
+transition: 250 // default value
+```
 
-**nested (boolean)**: enable nested modals (by default is true)
+**nested (boolean)**: Enable nested modals
 
-When modal is opened and we trigger another modal
+When modal is opened and we trigger another modal:
 
 If nested = true, it will be opened over active modal.
 
 If nested = false, it will be closed.
 
-**overlayCloseAll (boolean)**: should use if nested = true, close all modals on overlay click (by default is true)
+```js
+nested: false // default value
+```
+
+**overlayCloseAll (boolean)**: should use if nested = true, on overlay click:
 
 If overlayCloseAll = false, it will close only current active modal.
 
 If overlayCloseAll = true, it will close all active modals.
+
+```js
+overlayCloseAll: true // default value
+```
 
 Demo:
 https://nmasliy.github.io/simple-modal-js/
