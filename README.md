@@ -40,6 +40,7 @@ Modal must have id
 
 ***Add data attribute to your modal close trigger***<pre>data-modal-close</pre>
 In this case it close current modal where there close trigger is, we also can pass a modal id value the same way as we do in data-modal-open
+
 For example:
 
 <pre>data-modal-close="modal-default"</pre>
@@ -96,16 +97,16 @@ onOpen: modal => {
   console.log('on open: ', modal)
 }
 ```
-onClose: fires when modal closes and transition end
+onClose: fires when modal closed and transition end
 ```js
 onClose: modal => {
-  console.log('on open: ', modal)
+  console.log('on close: ', modal)
 }
 ```
 
 ### ***Options***
 
-**disableScroll (boolean)**: Disable scroll when modal open 
+**disableScroll (boolean)**: Disable scroll when modal opened 
 ```js
 disableScroll: true // default value
 ```
