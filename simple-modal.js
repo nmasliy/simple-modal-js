@@ -1,7 +1,9 @@
 class SimpleModal {
 	constructor(options) {
 		const defaultOptions = {
+			beforeOpen: () => {},
 			onOpen: () => {},
+			beforeClose: () => {},
 			onClose: () => {},
 			disableScroll: true,
 			transition: 250,
@@ -26,6 +28,8 @@ class SimpleModal {
 		if (!this.isAnimated) {
 			const $modal = document.querySelector('#' + id)
 
+			this.options.beforeOpen($modal)
+
 			$modal.setAttribute('aria-hidden', false)
 			this.isAnimated = true
 
@@ -46,6 +50,8 @@ class SimpleModal {
 	close(id) {
 		if (!this.isAnimated) {
 			const $modal = document.querySelector('#' + id)
+
+			this.options.beforeClose($modal)
 
 			this.isAnimated = true
 			$modal.classList.remove('is-open')

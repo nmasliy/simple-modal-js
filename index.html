@@ -291,7 +291,9 @@
 <script src="simple-modal.js"></script>
 <script >
 	const options = {
+		beforeOpen: (modal) => { console.log('before open: ', modal) },
 		onOpen: (modal) => { console.log('on open: ', modal) },
+		beforeClose: (modal) => { console.log('before close', modal) },
 		onClose: (modal) => { console.log('on close', modal) },
 		disableScroll: true,
 		transition: 250,
