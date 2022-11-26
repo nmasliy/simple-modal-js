@@ -58,8 +58,14 @@ Init with all options example:
 
 ```js
 const options = {
+  beforeOpen: modal => {
+    console.log('before open: ', modal)
+  },
   onOpen: modal => {
     console.log('on open: ', modal)
+  },
+  beforeClose: modal => {
+    console.log('before close', modal)
   },
   onClose: modal => {
     console.log('on close', modal)
@@ -91,10 +97,22 @@ SimpleModal.closeAll()
 
 ### ***Events***
 
+beforeOpen: fires before modal opened and transition start
+```js
+beforeOpen: modal => {
+  console.log('before open: ', modal)
+}
+```
 onOpen: fires when modal opened and transition end
 ```js
 onOpen: modal => {
   console.log('on open: ', modal)
+}
+```
+beforeClose: fires before modal closed and transition start
+```js
+beforeClose: modal => {
+  console.log('before close: ', modal)
 }
 ```
 onClose: fires when modal closed and transition end
