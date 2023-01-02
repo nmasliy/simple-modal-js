@@ -58,6 +58,9 @@ Init with all options example:
 
 ```js
 const options = {
+  onInit: () => {
+    console.log('init')
+  },
   beforeOpen: modal => {
     console.log('before open: ', modal)
   },
@@ -97,6 +100,12 @@ SimpleModal.closeAll()
 
 ### ***Events***
 
+onInit: fires when modals init
+```js
+onInit: () => {
+  console.log('init')
+}
+```
 beforeOpen: fires before modal opened and transition start
 ```js
 beforeOpen: modal => {
