@@ -1,4 +1,4 @@
-// TODO: add nested to special modal, not all modals
+// TODO: add init one and init all methods
 class SimpleModal {
   constructor(options) {
     const defaultOptions = {
@@ -8,12 +8,13 @@ class SimpleModal {
       beforeClose: () => {},
       onClose: () => {},
       disableScroll: true,
-      transition: 250,
+      transitionDelay: 250,
       nested: true,
       overlayCloseAll: true,
     };
     this.options = { ...defaultOptions, ...options };
-    this.htmlNode = document.querySelector('html');
+    this.html = document.querySelector('html');
+    this.body = document.querySelector('body');
     this.modalNodes = document.querySelectorAll('.modal');
     this.activeModalNodes = document.querySelectorAll('.modal.is-open');
     this.isAnimated = false;
@@ -22,13 +23,13 @@ class SimpleModal {
     if (this.modalNodes.length > 0) {
       this.modalNodes.forEach((modalNode) => {
         modalNode.style.transitionDuration =
-          this.options.transition / 1000 + 's';
+          this.options.transitionDelay / 1000 + 's';
       });
       this._events();
       this.options.onInit();
     }
   }
-  open(id) {
+  async open(id) {
     if (!this.isAnimated) {
       const modalNode = document.querySelector('#' + id);
 
@@ -37,21 +38,21 @@ class SimpleModal {
       modalNode.setAttribute('aria-hidden', false);
       this.isAnimated = true;
 
-      setTimeout(() => {
-        modalNode.classList.add('is-open');
-        if (this.options.disableScroll) {
-          this.htmlNode.classList.add('overflow-hidden');
-        }
-      }, 10);
+      await waitFor(1);
 
-      setTimeout(() => {
-        this.isAnimated = false;
-        this.activeModalNodes = document.querySelectorAll('.modal.is-open');
-        this.options.onOpen(modalNode);
-      }, this.options.transition);
+      modalNode.classList.add('is-open');
+      if (this.options.disableScroll) {
+        this._disableScroll();
+      }
+
+      await waitFor(this.options.transitionDelay);
+
+      this.isAnimated = false;
+      this.activeModalNodes = document.querySelectorAll('.modal.is-open');
+      this.options.onOpen(modalNode);
     }
   }
-  close(id) {
+  async close(id) {
     if (!this.isAnimated) {
       const modalNode = document.querySelector('#' + id);
 
@@ -61,22 +62,21 @@ class SimpleModal {
       modalNode.classList.remove('is-open');
 
       if (this.options.disableScroll && this.activeModalNodes.length === 1) {
-        this.htmlNode.classList.remove('overflow-hidden');
+        this._enableScroll();
       }
 
-      setTimeout(() => {
-        modalNode.setAttribute('aria-hidden', true);
-        this.isAnimated = false;
-        this.activeModalNodes = document.querySelectorAll('.modal.is-open');
-        this.options.onClose(modalNode);
-      }, this.options.transition);
+      await waitFor(this.options.transitionDelay);
+
+      modalNode.setAttribute('aria-hidden', true);
+      this.isAnimated = false;
+      this.activeModalNodes = document.querySelectorAll('.modal.is-open');
+      this.options.onClose(modalNode);
     }
   }
-  closeAll() {
-    this.activeModalNodes.forEach((modalNode) => {
+  async closeAll() {
+    this.activeModalNodes.forEach(async (modalNode) => {
       this.isAnimated = false;
-      this.close(modalNode.id);
-      this.htmlNode.classList.remove('overflow-hidden');
+      await this.close(modalNode.id);
     });
   }
   _events() {
@@ -92,9 +92,8 @@ class SimpleModal {
 
         if (!this.options.nested && this.activeModalNodes.length > 0) {
           this.closeAll();
-          setTimeout(() => {
-            this.open(modalId);
-          }, this.options.transition);
+          waitFor(this.options.transitionDelay);
+          this.open(modalId);
         } else {
           this.open(modalId);
         }
@@ -113,4 +112,18 @@ class SimpleModal {
 
     document.body.addEventListener('click', initEvents);
   }
+
+  _enableScroll() {
+    this.html.style.overflow = '';
+    this.body.style.overflow = '';
+  }
+
+  _disableScroll() {
+    this.html.style.overflow = 'hidden';
+    this.body.style.overflow = 'hidden';
+  }
 }
+
+const waitFor = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
+
+export default SimpleModal;

@@ -1,15 +1,7 @@
-$transition: opacity 0.3s ease-in-out;
+$transition: opacity 0.3s cubic-bezier(0.350, 0, 0.455, 0.980);
 
 .modal, .modal * {
 	box-sizing: border-box;
-}
-
-.overflow-hidden {
-	overflow: hidden;
-
-	body {
-		overflow: hidden;
-	}
 }
 
 .modal {
