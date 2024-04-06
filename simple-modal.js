@@ -1,4 +1,3 @@
-// TODO: add init one and init all methods
 class SimpleModal {
   constructor(options) {
     const defaultOptions = {
@@ -7,10 +6,13 @@ class SimpleModal {
       onOpen: () => {},
       beforeClose: () => {},
       onClose: () => {},
+      onStartOpen: () => {},
       disableScroll: true,
-      transitionDelay: 250,
+      transitionDelay: 300,
       nested: true,
       overlayCloseAll: true,
+      fixPageOffset: true,
+      fixedBlocks: [],
     };
     this.options = { ...defaultOptions, ...options };
     this.html = document.querySelector('html');
@@ -30,48 +32,58 @@ class SimpleModal {
     }
   }
   async open(id) {
-    if (!this.isAnimated) {
-      const modalNode = document.querySelector('#' + id);
+    if (this.isAnimated) return;
 
-      this.options.beforeOpen(modalNode);
-
-      modalNode.setAttribute('aria-hidden', false);
-      this.isAnimated = true;
-
-      await waitFor(1);
-
-      modalNode.classList.add('is-open');
-      if (this.options.disableScroll) {
-        this._disableScroll();
-      }
-
-      await waitFor(this.options.transitionDelay);
-
-      this.isAnimated = false;
-      this.activeModalNodes = document.querySelectorAll('.modal.is-open');
-      this.options.onOpen(modalNode);
+    if (this.activeModalNodes.length > 0) {
+      await this.closeAll();
+      await waitFor(this.options.transitionDelay + 100);
     }
+
+    const modalNode = document.querySelector('#' + id);
+
+    this.options.beforeOpen(modalNode);
+
+
+    if (this.options.disableScroll) {
+      this._disableScroll(modalNode);
+    }
+
+    modalNode.setAttribute('aria-hidden', false);
+    this.isAnimated = true;
+
+    await waitFor(1);
+
+    this.options.onStartOpen(modalNode);
+
+    modalNode.classList.add('is-open');
+    modalNode.focus();
+
+    await waitFor(this.options.transitionDelay);
+
+    this.isAnimated = false;
+    this.activeModalNodes = document.querySelectorAll('.modal.is-open');
+    this.options.onOpen(modalNode);
   }
   async close(id) {
-    if (!this.isAnimated) {
-      const modalNode = document.querySelector('#' + id);
+    if (this.isAnimated) return;
 
-      this.options.beforeClose(modalNode);
+    const modalNode = document.querySelector('#' + id);
 
-      this.isAnimated = true;
-      modalNode.classList.remove('is-open');
+    this.options.beforeClose(modalNode);
 
-      if (this.options.disableScroll && this.activeModalNodes.length === 1) {
-        this._enableScroll();
-      }
-
-      await waitFor(this.options.transitionDelay);
-
-      modalNode.setAttribute('aria-hidden', true);
-      this.isAnimated = false;
-      this.activeModalNodes = document.querySelectorAll('.modal.is-open');
-      this.options.onClose(modalNode);
+    this.isAnimated = true;
+    modalNode.classList.remove('is-open');
+    if (this.options.disableScroll && this.activeModalNodes.length === 1) {
+      this._enableScroll(modalNode);
     }
+
+    await waitFor(this.options.transitionDelay);
+
+
+    modalNode.setAttribute('aria-hidden', true);
+    this.isAnimated = false;
+    this.activeModalNodes = document.querySelectorAll('.modal.is-open');
+    this.options.onClose(modalNode);
   }
   async closeAll() {
     this.activeModalNodes.forEach(async (modalNode) => {
@@ -111,19 +123,41 @@ class SimpleModal {
     };
 
     document.body.addEventListener('click', initEvents);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        this.closeAll();
+      } else if (e.key === 'Tab') {
+      }
+    });
   }
 
-  _enableScroll() {
+  _enableScroll(modalNode) {
+    if (this.options.fixPageOffset) {
+      this.options.fixedBlocks.forEach((el) => (el.style.paddingRight = ''));
+
+      modalNode.style.paddingRight = '';
+      this.body.style.paddingRight = '';
+    }
+
     this.html.style.overflow = '';
     this.body.style.overflow = '';
   }
 
-  _disableScroll() {
+  _disableScroll(modalNode) {
+    if (this.options.fixPageOffset) {
+      const scrollWidth = window.innerWidth - this.body.offsetWidth + 'px';
+      this.options.fixedBlocks.forEach(
+        (el) => (el.style.paddingRight = scrollWidth)
+      );
+
+      modalNode.style.paddingRight = scrollWidth;
+      this.body.style.paddingRight = scrollWidth;
+    }
+
     this.html.style.overflow = 'hidden';
     this.body.style.overflow = 'hidden';
   }
 }
 
 const waitFor = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
-
-export default SimpleModal;
